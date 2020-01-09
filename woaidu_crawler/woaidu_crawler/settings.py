@@ -100,6 +100,7 @@ BOOK_FILE_CONTENT_TYPE = ['application/file',
                           'multipart/x-tar',
                           'text/plain', ]
 
+# url
 URL_GBK_DOMAIN = ['www.paofuu.com',
                   'down.wmtxt.com',
                   'www.txt163.com',
