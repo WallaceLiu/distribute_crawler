@@ -5,14 +5,14 @@ import time
 from scrapy.spiders import BaseSpider
 from scrapy.selector import HtmlXPathSelector
 from scrapy.http import Request
-from woaidu_crawler.woaidu_crawler.items import WoaiduCrawlerItem
-from woaidu_crawler.woaidu_crawler.utils.select_result import list_first_item, strip_null, deduplication, clean_url
+from woaidu_crawler.toutiao_crawler.items import WoaiduCrawlerItem
+from woaidu_crawler.toutiao_crawler.utils.select_result import list_first_item, strip_null, deduplication, clean_url
 
 
 class WoaiduSpider(BaseSpider):
-    name = "woaidu"
+    name = "toutiao"
     start_urls = (
-        'http://www.woaidu.org/sitemap_1.html',
+        'http://www.toutiao.org/sitemap_1.html',
     )
 
     def parse(self, response):

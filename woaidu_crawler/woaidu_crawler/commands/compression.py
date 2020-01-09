@@ -6,14 +6,11 @@
 """
 
 import os
-import zipfile
-import traceback
 import argparse
 import shutil
-from pprint import pprint
 
 
-def Compress_zip(raw_dir):
+def compress_zip(raw_dir):
     """
         Compress_zip
     """
@@ -32,10 +29,10 @@ if __name__ == "__main__":
     for i in os.listdir(path):
         compress_paths.extend([os.path.join(path, i, j) for j in os.listdir(os.path.join(path, i))])
 
-    # pprint(compress_paths)
+    print(compress_paths)
 
     for i in compress_paths:
-        Compress_zip(i)
+        compress_zip(i)
 
     if args.delsource:  # To ues this:python compression -d
         for i in compress_paths:

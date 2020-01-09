@@ -64,7 +64,7 @@ distribute_crawler
 使用方法
 ========
 
-#mongodb集群存储
+# mongodb集群存储
 * 安装scrapy
 * 安装redispy
 * 安装pymongo
@@ -75,17 +75,17 @@ distribute_crawler
 * 启动redis server
 * 搭建mongodb集群
 ```
-      cd woaidu_crawler/commands/
-      sudo python init_sharding_mongodb.py --path=/usr/bin
+cd woaidu_crawler/commands/
+sudo python init_sharding_mongodb.py --path=/usr/bin
 ```
 * 在含有log文件夹的目录下执行:
 ```
-      scrapy crawl woaidu
+scrapy crawl woaidu
 ```
 * 打开http://127.0.0.1/ 通过图表查看spider实时状态信息
 * 要想尝试分布式，可以在另外一个目录运行此工程
 
-#mongodb
+# mongodb
 * 安装scrapy
 * 安装redispy
 * 安装pymongo
@@ -96,17 +96,17 @@ distribute_crawler
 * 启动redis server
 * 搭建mongodb服务器
 ```
-      cd woaidu_crawler/commands/
-      python init_single_mongodb.py 
+cd woaidu_crawler/commands/
+python init_single_mongodb.py 
 ```
 * 设置settings.py：
 
 ```python
-      ITEM_PIPELINES = ['woaidu_crawler.pipelines.cover_image.WoaiduCoverImage',
-          'woaidu_crawler.pipelines.bookfile.WoaiduBookFile',
-          'woaidu_crawler.pipelines.drop_none_download.DropNoneBookFile',
-          'woaidu_crawler.pipelines.mongodb.SingleMongodbPipeline',
-          'woaidu_crawler.pipelines.final_test.FinalTestPipeline',]
+ITEM_PIPELINES = ['woaidu_crawler.pipelines.cover_image.WoaiduCoverImage',
+  'woaidu_crawler.pipelines.bookfile.WoaiduBookFile',
+  'woaidu_crawler.pipelines.drop_none_download.DropNoneBookFile',
+  'woaidu_crawler.pipelines.mongodb.SingleMongodbPipeline',
+  'woaidu_crawler.pipelines.final_test.FinalTestPipeline',]
 ```
 * 在含有log文件夹的目录下执行:
 ```
@@ -120,7 +120,7 @@ distribute_crawler
 
 每次运行完之后都要执行commands/clear_stats.py文件来清除redis中的stats信息
 ```
-     python clear_stats.py
+python clear_stats.py
 ```
 
 Screenshots

@@ -26,13 +26,13 @@ def strip_null(arg, null=None):
     if null is None:
         null = NULL
 
-    if type(arg) is types.ListType:
+    if type(arg) == isinstance(types.ListType):
         return [i for i in arg if i not in null]
-    elif type(arg) is types.TupleType:
+    elif type(arg) == isinstance(types.TupleType):
         return tuple([i for i in arg if i not in null])
-    elif type(arg) is type(set()):
+    elif type(arg) == isinstance(type(set())):
         return arg.difference(set(null))
-    elif type(arg) is types.DictType:
+    elif type(arg) == isinstance(types.DictType):
         return {key: value for key, value in arg.items() if value not in null}
 
     return arg
@@ -48,9 +48,9 @@ def deduplication(arg):
         if arg is list,then deduplication it and then the new list.
         if arg is tuple,then deduplication it and then the new tuple.
     """
-    if type(arg) is types.ListType:
+    if type(arg) == isinstance(types.ListType):
         return list(set(arg))
-    elif type(arg) is types.TupleType:
+    elif type(arg) == isinstance(types.TupleType):
         return tuple(set(arg))
 
     return arg

@@ -1,15 +1,15 @@
 #!/usr/bin/python
 # -*-coding:utf-8-*-
 
-# Scrapy settings for woaidu_crawler project
+# Scrapy settings for toutiao_crawler project
 import os
 
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
-BOT_NAME = 'woaidu_crawler'
+BOT_NAME = 'toutiao_crawler'
 
-SPIDER_MODULES = ['woaidu_crawler.spiders']
-NEWSPIDER_MODULE = 'woaidu_crawler.spiders'
+SPIDER_MODULES = ['toutiao_crawler.spiders']
+NEWSPIDER_MODULE = 'toutiao_crawler.spiders'
 
 DOWNLOAD_DELAY = 1
 CONCURRENT_ITEMS = 100
@@ -33,14 +33,14 @@ AUTOTHROTTLE_CONCURRENCY_CHECK_PERIOD = 10  # How many responses should pass to 
 # XXX:notice:
 # if you want to use shard mongodb,you need MongodbWoaiduBookFile and ShardMongodbPipeline
 # if you want to use single mongodb,you need WoaiduBookFile and SingleMongodbPipeline
-ITEM_PIPELINES = ['woaidu_crawler.pipelines.cover_image.WoaiduCoverImage',
-                  #    'woaidu_crawler.pipelines.bookfile.WoaiduBookFile',
-                  'woaidu_crawler.pipelines.mongodb_book_file.MongodbWoaiduBookFile',
-                  'woaidu_crawler.pipelines.drop_none_download.DropNoneBookFile',
-                  #    'woaidu_crawler.pipelines.mongodb.SingleMongodbPipeline',
-                  'woaidu_crawler.pipelines.mongodb.ShardMongodbPipeline',
-                  'woaidu_crawler.pipelines.final_test.FinalTestPipeline', ]
-# ITEM_PIPELINES = ['woaidu_crawler.pipelines.WoaiduBookFile',]
+ITEM_PIPELINES = ['toutiao_crawler.pipelines.cover_image.WoaiduCoverImage',
+                  #    'toutiao_crawler.pipelines.bookfile.WoaiduBookFile',
+                  'toutiao_crawler.pipelines.mongodb_book_file.MongodbWoaiduBookFile',
+                  'toutiao_crawler.pipelines.drop_none_download.DropNoneBookFile',
+                  #    'toutiao_crawler.pipelines.mongodb.SingleMongodbPipeline',
+                  'toutiao_crawler.pipelines.mongodb.ShardMongodbPipeline',
+                  'toutiao_crawler.pipelines.final_test.FinalTestPipeline', ]
+# ITEM_PIPELINES = ['toutiao_crawler.pipelines.WoaiduBookFile',]
 
 IMAGES_STORE = os.path.join(PROJECT_DIR, 'media/book_covor_image')
 IMAGES_EXPIRES = 30
@@ -57,9 +57,9 @@ COOKIES_ENABLED = False
 # USER_AGENT = 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
 
 DOWNLOADER_MIDDLEWARES = {
-    #    'woaidu_crawler.contrib.downloadmiddleware.google_cache.GoogleCacheMiddleware':50,
+    #    'toutiao_crawler.contrib.downloadmiddleware.google_cache.GoogleCacheMiddleware':50,
     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
-    'woaidu_crawler.contrib.downloadmiddleware.rotate_useragent.RotateUserAgentMiddleware': 400,
+    'toutiao_crawler.contrib.downloadmiddleware.rotate_useragent.RotateUserAgentMiddleware': 400,
 }
 
 # GOOGLE_CACHE_DOMAINS = ['www.woaidu.org',]
@@ -119,7 +119,7 @@ Drop_NoneBookFile = True
 
 LOG_FILE = "logs/scrapy.log"
 
-STATS_CLASS = 'woaidu_crawler.statscol.graphite.RedisGraphiteStatsCollector'
+STATS_CLASS = 'toutiao_crawler.statscol.graphite.RedisGraphiteStatsCollector'
 
 GRAPHITE_HOST = '127.0.0.1'
 GRAPHITE_PORT = 2003
@@ -134,6 +134,6 @@ ShardMONGODB_PORT = 27017
 ShardMONGODB_DB = "books_mongo"
 GridFs_Collection = "book_file"
 
-SCHEDULER = "woaidu_crawler.scrapy_redis.scheduler.Scheduler"
+SCHEDULER = "toutiao_crawler.scrapy_redis.scheduler.Scheduler"
 SCHEDULER_PERSIST = False
-SCHEDULER_QUEUE_CLASS = 'woaidu_crawler.scrapy_redis.queue.SpiderPriorityQueue'
+SCHEDULER_QUEUE_CLASS = 'toutiao_crawler.scrapy_redis.queue.SpiderPriorityQueue'

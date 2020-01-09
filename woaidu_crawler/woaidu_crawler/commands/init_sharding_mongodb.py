@@ -4,7 +4,7 @@
 """
     This file is for initiate mongodb situation
     
-    When you want to save book file in gridfs,then you need a sharding cluster,that the database design is:
+    When you want to save book file in gridfs, then you need a sharding cluster, that the database design is:
     database:books_mongo
     collections:
         book_detail

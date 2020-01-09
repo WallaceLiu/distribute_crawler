@@ -2,7 +2,7 @@
 # -*-coding:utf-8-*-
 
 """
-    After you run the project every time,the stats infomation in still in the redis database.
+    After you run the project every time,the stats information in still in the redis database.
     
     Run this file can help you clear the stats in the redis database.
 """

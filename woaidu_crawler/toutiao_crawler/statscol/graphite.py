@@ -6,7 +6,7 @@ import pprint
 from scrapy import log
 from socket import socket
 from time import time
-from woaidu_crawler.woaidu_crawler.utils import color
+from woaidu_crawler.toutiao_crawler.utils import color
 from scrapy.statscollectors import StatsCollector
 
 # default values
