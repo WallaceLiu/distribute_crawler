@@ -1,8 +1,9 @@
 #!/usr/bin/python
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
 from pprint import pprint
-from woaidu_crawler.utils import color
+from woaidu_crawler.woaidu_crawler.utils import color
+
 
 class FinalTestPipeline(object):
     """
@@ -14,7 +15,7 @@ class FinalTestPipeline(object):
         make line 211 like this:
             #log.msg(level=log.DEBUG, spider=spider, **logkws)
     """
-    
+
     def __init__(self):
         self.style = color.color_style()
 
@@ -23,8 +24,8 @@ class FinalTestPipeline(object):
         pipe = cls()
         pipe.crawler = crawler
         return pipe
-    
+
     def process_item(self, item, spider):
-        print self.style.NOTICE("SUCCESS(item):" + item['original_url'])
-        #pprint(item)
+        print(self.style.NOTICE("SUCCESS(item):" + item['original_url']))
+        # pprint(item)
         return item

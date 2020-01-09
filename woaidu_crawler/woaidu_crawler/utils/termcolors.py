@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 """
 termcolors.py
 """
@@ -56,6 +56,7 @@ def colorize(text='', opts=(), **kwargs):
         text = text + '\x1b[%sm' % RESET
     return ('\x1b[%sm' % ';'.join(code_list)) + text
 
+
 def make_style(opts=(), **kwargs):
     """
     Returns a function with default parameters for colorize()
@@ -68,58 +69,60 @@ def make_style(opts=(), **kwargs):
     """
     return lambda text: colorize(text, opts, **kwargs)
 
+
 NOCOLOR_PALETTE = 'nocolor'
 DARK_PALETTE = 'dark'
 LIGHT_PALETTE = 'light'
 
 PALETTES = {
     NOCOLOR_PALETTE: {
-        'ERROR':        {},
-        'NOTICE':       {},
-        'SQL_FIELD':    {},
-        'SQL_COLTYPE':  {},
-        'SQL_KEYWORD':  {},
-        'SQL_TABLE':    {},
-        'HTTP_INFO':         {},
-        'HTTP_SUCCESS':      {},
-        'HTTP_REDIRECT':     {},
+        'ERROR': {},
+        'NOTICE': {},
+        'SQL_FIELD': {},
+        'SQL_COLTYPE': {},
+        'SQL_KEYWORD': {},
+        'SQL_TABLE': {},
+        'HTTP_INFO': {},
+        'HTTP_SUCCESS': {},
+        'HTTP_REDIRECT': {},
         'HTTP_NOT_MODIFIED': {},
-        'HTTP_BAD_REQUEST':  {},
-        'HTTP_NOT_FOUND':    {},
+        'HTTP_BAD_REQUEST': {},
+        'HTTP_NOT_FOUND': {},
         'HTTP_SERVER_ERROR': {},
     },
     DARK_PALETTE: {
-        'ERROR':        { 'fg': 'red', 'opts': ('bold',) },
-        'NOTICE':       { 'fg': 'yellow' },
-        'SQL_FIELD':    { 'fg': 'green', 'opts': ('bold',) },
-        'SQL_COLTYPE':  { 'fg': 'green' },
-        'SQL_KEYWORD':  { 'fg': 'yellow' },
-        'SQL_TABLE':    { 'opts': ('bold',) },
-        'HTTP_INFO':         { 'opts': ('bold',) },
-        'HTTP_SUCCESS':      { },
-        'HTTP_REDIRECT':     { 'fg': 'green' },
-        'HTTP_NOT_MODIFIED': { 'fg': 'cyan' },
-        'HTTP_BAD_REQUEST':  { 'fg': 'red', 'opts': ('bold',) },
-        'HTTP_NOT_FOUND':    { 'fg': 'yellow' },
-        'HTTP_SERVER_ERROR': { 'fg': 'magenta', 'opts': ('bold',) },
+        'ERROR': {'fg': 'red', 'opts': ('bold',)},
+        'NOTICE': {'fg': 'yellow'},
+        'SQL_FIELD': {'fg': 'green', 'opts': ('bold',)},
+        'SQL_COLTYPE': {'fg': 'green'},
+        'SQL_KEYWORD': {'fg': 'yellow'},
+        'SQL_TABLE': {'opts': ('bold',)},
+        'HTTP_INFO': {'opts': ('bold',)},
+        'HTTP_SUCCESS': {},
+        'HTTP_REDIRECT': {'fg': 'green'},
+        'HTTP_NOT_MODIFIED': {'fg': 'cyan'},
+        'HTTP_BAD_REQUEST': {'fg': 'red', 'opts': ('bold',)},
+        'HTTP_NOT_FOUND': {'fg': 'yellow'},
+        'HTTP_SERVER_ERROR': {'fg': 'magenta', 'opts': ('bold',)},
     },
     LIGHT_PALETTE: {
-        'ERROR':        { 'fg': 'red', 'opts': ('bold',) },
-        'NOTICE':       { 'fg': 'yellow' },
-        'SQL_FIELD':    { 'fg': 'green', 'opts': ('bold',) },
-        'SQL_COLTYPE':  { 'fg': 'green' },
-        'SQL_KEYWORD':  { 'fg': 'blue' },
-        'SQL_TABLE':    { 'opts': ('bold',) },
-        'HTTP_INFO':         { 'opts': ('bold',) },
-        'HTTP_SUCCESS':      { },
-        'HTTP_REDIRECT':     { 'fg': 'green', 'opts': ('bold',) },
-        'HTTP_NOT_MODIFIED': { 'fg': 'green' },
-        'HTTP_BAD_REQUEST':  { 'fg': 'red', 'opts': ('bold',) },
-        'HTTP_NOT_FOUND':    { 'fg': 'red' },
-        'HTTP_SERVER_ERROR': { 'fg': 'magenta', 'opts': ('bold',) },
+        'ERROR': {'fg': 'red', 'opts': ('bold',)},
+        'NOTICE': {'fg': 'yellow'},
+        'SQL_FIELD': {'fg': 'green', 'opts': ('bold',)},
+        'SQL_COLTYPE': {'fg': 'green'},
+        'SQL_KEYWORD': {'fg': 'blue'},
+        'SQL_TABLE': {'opts': ('bold',)},
+        'HTTP_INFO': {'opts': ('bold',)},
+        'HTTP_SUCCESS': {},
+        'HTTP_REDIRECT': {'fg': 'green', 'opts': ('bold',)},
+        'HTTP_NOT_MODIFIED': {'fg': 'green'},
+        'HTTP_BAD_REQUEST': {'fg': 'red', 'opts': ('bold',)},
+        'HTTP_NOT_FOUND': {'fg': 'red'},
+        'HTTP_SERVER_ERROR': {'fg': 'magenta', 'opts': ('bold',)},
     }
 }
 DEFAULT_PALETTE = DARK_PALETTE
+
 
 def parse_color_setting(config_string):
     """Parse a SPIDER_COLORS environment variable to produce the system palette

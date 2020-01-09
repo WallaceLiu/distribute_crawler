@@ -1,18 +1,19 @@
 #!/usr/bin/python
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
 import redis
 import pprint
 from scrapy import log
 from socket import socket
 from time import time
-from woaidu_crawler.utils import color
-from scrapy.statscol import StatsCollector
+from woaidu_crawler.woaidu_crawler.utils import color
+from scrapy.statscollectors import StatsCollector
 
 # default values
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 STATS_KEY = 'scrapy:stats'
+
 
 class GraphiteClient(object):
     """
@@ -20,17 +21,18 @@ class GraphiteClient(object):
         
         Can have some ideas from /opt/graphite/examples/example-client.py
     """
-    
+
     def __init__(self, host="127.0.0.1", port=2003):
         self.style = color.color_style()
         self._sock = socket()
-        self._sock.connect((host,port))
+        self._sock.connect((host, port))
 
     def send(self, metric, value, timestamp=None):
         try:
             self._sock.send("%s %g %s\n\n" % (metric, value, timestamp or int(time())))
         except Exception as err:
             self.style.ERROR("SocketError(GraphiteClient): " + str(err))
+
 
 class GraphiteStatsCollector(StatsCollector):
     """
@@ -68,15 +70,15 @@ class GraphiteStatsCollector(StatsCollector):
 
     GRAPHITE_HOST = '127.0.0.1'
     GRAPHITE_PORT = 2003
-    GRAPHITE_IGNOREKEYS = []#to ignore it,prevent to send data to graphite
-    
+    GRAPHITE_IGNOREKEYS = []  # to ignore it,prevent to send data to graphite
+
     def __init__(self, crawler):
         super(GraphiteStatsCollector, self).__init__(crawler)
 
         host = crawler.settings.get("GRAPHITE_HOST", self.GRAPHITE_HOST)
         port = crawler.settings.get("GRAPHITE_PORT", self.GRAPHITE_PORT)
-        self.ignore_keys = crawler.settings.get("GRAPHITE_IGNOREKEYS",self.GRAPHITE_IGNOREKEYS)
-        self._graphiteclient = GraphiteClient(host,port)
+        self.ignore_keys = crawler.settings.get("GRAPHITE_IGNOREKEYS", self.GRAPHITE_IGNOREKEYS)
+        self._graphiteclient = GraphiteClient(host, port)
 
     def _get_stats_key(self, spider, key):
         if spider is not None:
@@ -94,36 +96,37 @@ class GraphiteStatsCollector(StatsCollector):
 
     def inc_value(self, key, count=1, start=0, spider=None):
         super(GraphiteStatsCollector, self).inc_value(key, count, start, spider)
-        self._graphiteclient.send(self._get_stats_key(spider, key),self.get_value(key))
+        self._graphiteclient.send(self._get_stats_key(spider, key), self.get_value(key))
 
     def max_value(self, key, value, spider=None):
         super(GraphiteStatsCollector, self).max_value(key, value, spider)
-        self._graphiteclient.send(self._get_stats_key(spider, key),self.get_value(key))
+        self._graphiteclient.send(self._get_stats_key(spider, key), self.get_value(key))
 
     def min_value(self, key, value, spider=None):
         super(GraphiteStatsCollector, self).min_value(key, value, spider)
-        self._graphiteclient.send(self._get_stats_key(spider, key),self.get_value(key))
+        self._graphiteclient.send(self._get_stats_key(spider, key), self.get_value(key))
 
     def set_stats(self, stats, spider=None):
         super(GraphiteStatsCollector, self).set_stats(stats, spider)
         for key in stats:
             self._set_value(key, stats[key], spider)
 
+
 class RedisStatsCollector(object):
     """
         Save stats data in redis for distribute situation.
     """
-    
+
     def __init__(self, crawler):
-        self._dump = crawler.settings.getbool('STATS_DUMP')#default: STATS_DUMP = True
+        self._dump = crawler.settings.getbool('STATS_DUMP')  # default: STATS_DUMP = True
         host = crawler.settings.get('REDIS_HOST', REDIS_HOST)
         port = crawler.settings.get('REDIS_PORT', REDIS_PORT)
         self.stats_key = crawler.settings.get('STATS_KEY', STATS_KEY)
         self.server = redis.Redis(host, port)
-        
+
     def get_value(self, key, default=None, spider=None):
-        if self.server.hexists(self.stats_key,key):
-            return int(self.server.hget(self.stats_key,key))
+        if self.server.hexists(self.stats_key, key):
+            return int(self.server.hget(self.stats_key, key))
         else:
             return default
 
@@ -131,21 +134,21 @@ class RedisStatsCollector(object):
         return self.server.hgetall(self.stats_key)
 
     def set_value(self, key, value, spider=None):
-        self.server.hset(self.stats_key,key,value)
+        self.server.hset(self.stats_key, key, value)
 
     def set_stats(self, stats, spider=None):
-        self.server.hmset(self.stats_key,stats)
+        self.server.hmset(self.stats_key, stats)
 
     def inc_value(self, key, count=1, start=0, spider=None):
-        if not self.server.hexists(self.stats_key,key):
+        if not self.server.hexists(self.stats_key, key):
             self.set_value(key, start)
-        self.server.hincrby(self.stats_key,key,count)
+        self.server.hincrby(self.stats_key, key, count)
 
     def max_value(self, key, value, spider=None):
-        self.set_value(key, max(self.get_value(key,value),value))
+        self.set_value(key, max(self.get_value(key, value), value))
 
     def min_value(self, key, value, spider=None):
-        self.set_value(key, min(self.get_value(key,value),value))
+        self.set_value(key, min(self.get_value(key, value), value))
 
     def clear_stats(self, spider=None):
         self.server.delete(self.stats_key)
@@ -156,12 +159,13 @@ class RedisStatsCollector(object):
     def close_spider(self, spider, reason):
         if self._dump:
             log.msg("Dumping Scrapy stats:\n" + pprint.pformat(self.get_stats()), \
-                spider=spider)
+                    spider=spider)
         self._persist_stats(self.get_stats(), spider)
 
     def _persist_stats(self, stats, spider):
         pass
-        
+
+
 class RedisGraphiteStatsCollector(RedisStatsCollector):
     """
         send the stats data to graphite and save stats data in redis for distribute situation.
@@ -198,15 +202,15 @@ class RedisGraphiteStatsCollector(RedisStatsCollector):
 
     GRAPHITE_HOST = '127.0.0.1'
     GRAPHITE_PORT = 2003
-    GRAPHITE_IGNOREKEYS = []#to ignore it,prevent to send data to graphite
-    
+    GRAPHITE_IGNOREKEYS = []  # to ignore it,prevent to send data to graphite
+
     def __init__(self, crawler):
         super(RedisGraphiteStatsCollector, self).__init__(crawler)
 
         host = crawler.settings.get("GRAPHITE_HOST", self.GRAPHITE_HOST)
         port = crawler.settings.get("GRAPHITE_PORT", self.GRAPHITE_PORT)
-        self.ignore_keys = crawler.settings.get("GRAPHITE_IGNOREKEYS",self.GRAPHITE_IGNOREKEYS)
-        self._graphiteclient = GraphiteClient(host,port)
+        self.ignore_keys = crawler.settings.get("GRAPHITE_IGNOREKEYS", self.GRAPHITE_IGNOREKEYS)
+        self._graphiteclient = GraphiteClient(host, port)
 
     def _get_stats_key(self, spider, key):
         if spider is not None:
@@ -224,15 +228,15 @@ class RedisGraphiteStatsCollector(RedisStatsCollector):
 
     def inc_value(self, key, count=1, start=0, spider=None):
         super(RedisGraphiteStatsCollector, self).inc_value(key, count, start, spider)
-        self._graphiteclient.send(self._get_stats_key(spider, key),self.get_value(key))
+        self._graphiteclient.send(self._get_stats_key(spider, key), self.get_value(key))
 
     def max_value(self, key, value, spider=None):
         super(RedisGraphiteStatsCollector, self).max_value(key, value, spider)
-        self._graphiteclient.send(self._get_stats_key(spider, key),self.get_value(key))
+        self._graphiteclient.send(self._get_stats_key(spider, key), self.get_value(key))
 
     def min_value(self, key, value, spider=None):
         super(RedisGraphiteStatsCollector, self).min_value(key, value, spider)
-        self._graphiteclient.send(self._get_stats_key(spider, key),self.get_value(key))
+        self._graphiteclient.send(self._get_stats_key(spider, key), self.get_value(key))
 
     def set_stats(self, stats, spider=None):
         super(RedisGraphiteStatsCollector, self).set_stats(stats, spider)

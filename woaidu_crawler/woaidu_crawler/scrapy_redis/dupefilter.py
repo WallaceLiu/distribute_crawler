@@ -4,7 +4,7 @@
 import redis
 import time
 
-from scrapy.dupefilter import BaseDupeFilter
+from scrapy.dupefilters import BaseDupeFilter
 from scrapy.utils.request import request_fingerprint
 
 

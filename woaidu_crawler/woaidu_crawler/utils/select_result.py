@@ -1,15 +1,16 @@
 #!/usr/bin/python
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
 import types
 from w3lib.html import remove_entities
-from urlparse import urlparse, urljoin
+from urllib.parse import urlparse, urljoin
 
-NULL = [None,'null']
+NULL = [None, 'null']
 
-list_first_item = lambda x:x[0] if x else None
+list_first_item = lambda x: x[0] if x else None
 
-def strip_null(arg,null=None):
+
+def strip_null(arg, null=None):
     """
         strip list,set,tuple,dict null item.
 
@@ -32,9 +33,10 @@ def strip_null(arg,null=None):
     elif type(arg) is type(set()):
         return arg.difference(set(null))
     elif type(arg) is types.DictType:
-        return {key:value for key,value in arg.items() if value not in null}
+        return {key: value for key, value in arg.items() if value not in null}
 
     return arg
+
 
 def deduplication(arg):
     """
@@ -53,6 +55,7 @@ def deduplication(arg):
 
     return arg
 
+
 def clean_link(link_text):
     """
         Remove leading and trailing whitespace and punctuation
@@ -60,7 +63,9 @@ def clean_link(link_text):
 
     return link_text.strip("\t\r\n '\"")
 
-clean_url = lambda base_url,u,response_encoding: urljoin(base_url, remove_entities(clean_link(u.decode(response_encoding))))
+
+clean_url = lambda base_url, u, response_encoding: urljoin(base_url,
+                                                           remove_entities(clean_link(u.decode(response_encoding))))
 """
     remove leading and trailing whitespace and punctuation and entities from the given text.
     then join the base_url and the link that extract

@@ -7,7 +7,7 @@
 import os
 import sys
 
-from woaidu_crawler.utils import termcolors
+from woaidu_crawler.woaidu_crawler.utils import termcolors
 
 def supports_color():
     """

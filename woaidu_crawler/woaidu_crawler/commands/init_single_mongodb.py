@@ -29,7 +29,7 @@
 """
 
 import types
-from pymongo.connection import MongoClient
+from pymongo import MongoClient
 from pymongo import ASCENDING, DESCENDING
 
 DATABASE_NAME = "books_fs"

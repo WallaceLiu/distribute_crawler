@@ -2,8 +2,8 @@
 #-*-coding:utf-8-*-
 
 from pprint import pprint
-from woaidu_crawler.utils import color
-from woaidu_crawler.pipelines.bookfile import NofilesDrop
+from woaidu_crawler.woaidu_crawler.utils import color
+from woaidu_crawler.woaidu_crawler.pipelines.bookfile import NofilesDrop
 
 class DropNoneBookFile(object):
     """
