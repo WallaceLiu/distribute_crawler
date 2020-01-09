@@ -9,7 +9,7 @@
 
 import redis
 
-# default values
+# redis default values
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 STATS_KEY = 'scrapy:stats'
